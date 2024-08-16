@@ -31,15 +31,15 @@ for attempt in "${attempts[@]}"; do
             ;;
     esac
     if [ -n "$vbmeta_digest" ]; then
-        echo "$date*已找到哈希值：$vbmeta_digest*" >>哈希值.log
+        echo "$date*已找到哈希值：$vbmeta_digest*" >> 哈希值.log
         break
     fi
     sleep 1
 done
-pkill -f "logcat"
+pkill -f logcat
 rm -f ${MODDIR}/ll/log/VBMeta_Digest.txt
 if [ -n "$vbmeta_digest" ]; then
-    echo "$date*成功设置新值哈希值*" >>哈希值.log
+    echo "$date*成功设置新值哈希值*" >> 哈希值.log
 else
-    echo "$date*设置新值哈希值失败*" >>哈希值.log
+    echo "$date*设置新值哈希值失败*" >> 哈希值.log
 fi
