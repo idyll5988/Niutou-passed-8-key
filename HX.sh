@@ -37,7 +37,7 @@ for attempt in "${attempts[@]}"; do
     sleep 1
 done
 pkill -f "logcat"
-rm -f ${MODDIR}/scripts/VBMeta_Digest.txt
+rm -f ${MODDIR}/ll/log/VBMeta_Digest.txt
 if [ -n "$vbmeta_digest" ]; then
     echo "$date*成功设置新值哈希值*" >>哈希值.log
 else
