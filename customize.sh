@@ -3,34 +3,20 @@ PROPFILE=true
 POSTFSDATA=true
 LATESTARTSERVICE=true
 cd $MODPATH
-if [ "$BOOTMODE" != true ]; then
-  abort "-----------------------------------------------------------"
-  ui_print "▌*! 请在 Magisk/KernelSU/APatch Manager 中安装"
-  ui_print "▌*! 不支持从recovery中安装"
-  abort "-----------------------------------------------------------"
-elif [ "$KSU" = true ] && [ "$KSU_VER_CODE" -lt 10670 ]; then
-  abort "-----------------------------------------------------------"
-  ui_print "▌*! 请更新您的 KernelSU 和 KernelSU 管理器"
-  abort "-----------------------------------------------------------"
-fi
-if [[ "$(getprop ro.build.version.sdk)" -lt 31 ]]; then
-  ui_print "▌*"
-  ui_print "▌*不能用于任何低于Android 12的设备."
-  ui_print "▌*"
-
-fi
-service_dir="/data/adb/service.d"
 if [ "$KSU" = "true" ]; then
-  ui_print "▌*kernelSU版本: $KSU_VER ($KSU_VER_CODE)"
-  [ "$KSU_VER_CODE" -lt 10683 ] && service_dir="/data/adb/ksu/service.d"
+ui_print "▌*👺KernelSU版本=$KSU_KERNEL_VER_CODE (kernel) + $KSU_VER_CODE (ksud)*" 
 elif [ "$APATCH" = "true" ]; then
-  APATCH_VER=$(cat "/data/adb/ap/version")
-  ui_print "▌*APatch版本: $APATCH_VER"
+APATCH_VER=$(cat "/data/adb/ap/version")
+ui_print "▌*👺APatch版本=$APATCH_VER*" 
 else
-  ui_print "▌*Magisk版本: $MAGISK_VER ($MAGISK_VER_CODE)"
+ui_print "▌*👺Magisk=已安装*" 
+ui_print "▌*👺su版本=$(su -v)*" 
+ui_print "▌*👺Magisk版本=$(magisk -v)*" 
+ui_print "▌*👺Magisk版本号=$(magisk -V)*" 
 fi
-if [ ! -d "${service_dir}" ]; then
-  mkdir -p "${service_dir}"
+if [ -d "/data/adb/modules/hidden" ]; then
+  rm -rf "/data/adb/modules/hidden"
+  ui_print "▌*已删除旧模块"
 fi
 if [ -d "/data/adb/modules/key" ]; then
   rm -rf "/data/adb/modules/key"
