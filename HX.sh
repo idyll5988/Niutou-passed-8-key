@@ -13,7 +13,7 @@ function log() {
 cd "${MODDIR}/ll/log"
 logcat > "${MODDIR}/ll/log/VBMeta_Digest.txt" &
 vbmeta_digest=""
-attempts=("bootlog" "getprop" "logcat" "resetprop" "direct" "fastboot")
+attempts=("bootlog" "getprop" "logcat" "resetprop" "direct" "fastboot" "cmdline")
 for attempt in "${attempts[@]}"; do
     log
     case $attempt in
@@ -37,12 +37,15 @@ for attempt in "${attempts[@]}"; do
             ;;
 		"fastboot")
             vbmeta_digest=$(fastboot oem get vbmeta_digest 2>/dev/null)
-            ;;	
+            ;;
+        "cmdline")
+            vbmeta_digest=$(cat /proc/cmdline | sed 's/ /\n/g' | grep "androidboot.vbmeta.digest" | awk -F '=' '{print $2}') 
+            ;;			
     esac
     if [ -n "$vbmeta_digest" ]; then
         echo "${date}*已找到哈希值：$vbmeta_digest*" >> 哈希值.log
 		su -c setprop ro.boot.vbmeta.digest "$vbmeta_digest"
-		resetprop -n ro.boot.vbmeta.digest "$vbmeta_digest"
+		resetprop ro.boot.vbmeta.digest "$vbmeta_digest"
         break
 	else
        echo "${date}*尝试：$attempts获取VBMeta哈希值失败*" >> 哈希值.log
