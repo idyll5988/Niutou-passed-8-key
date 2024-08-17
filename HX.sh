@@ -1,6 +1,6 @@
 #!/system/bin/sh
 [ ! "$MODDIR" ] && MODDIR=${0%/*}
-MODPATH="/data/adb/modules/hidden"
+MODPATH="/data/adb/modules/key"
 date="$( date "+%y年%m月%d日%H时%M分%S秒")"
 [[ ! -e ${MODDIR}/ll/log ]] && mkdir -p ${MODDIR}/ll/log
 function log() {
@@ -42,7 +42,7 @@ for attempt in "${attempts[@]}"; do
     if [ -n "$vbmeta_digest" ]; then
         echo "${date}*已找到哈希值：$vbmeta_digest*" >> 哈希值.log
 		su -c setprop ro.boot.vbmeta.digest "$vbmeta_digest"
-		resetprop ro.boot.vbmeta.digest "$vbmeta_digest"
+		resetprop -n ro.boot.vbmeta.digest "$vbmeta_digest"
         break
 	else
        echo "${date}*尝试：$attempts获取VBMeta哈希值失败*" >> 哈希值.log
