@@ -14,10 +14,6 @@ ui_print "▌*👺su版本=$(su -v)*"
 ui_print "▌*👺Magisk版本=$(magisk -v)*" 
 ui_print "▌*👺Magisk版本号=$(magisk -V)*" 
 fi
-if [ -d "/data/adb/modules/hidden" ]; then
-  rm -rf "/data/adb/modules/hidden"
-  ui_print "▌*已删除旧模块"
-fi
 if [ -d "/data/adb/modules/key" ]; then
   rm -rf "/data/adb/modules/key"
   ui_print "▌*已删除旧模块"
